@@ -1,2 +1,3 @@
 # Swami Vivekananda -- The knowledge 
-![Swami Vivekananda](https://github.com/user-attachments/assets/bdc04ad5-653a-4ff5-8698-10b3b07b96f3)
+![colombo to almora](https://github.com/user-attachments/assets/073ae9f4-adbc-4d53-885e-fcf72c56cf73)
+
