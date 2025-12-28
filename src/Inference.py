@@ -46,7 +46,7 @@ retriever = vectordb.as_retriever(
 
 
 RAG_TEMPLATE = ChatPromptTemplate.from_messages([
-    ("system", "You are a Bhagavad Gita assistant. Answer using only the context provided."),
+    ("system", "You are a Swami Vivekanandaassistant. Answer using only the context provided."),
     ("system", "Context: {context}"),
     ("user", "{query}")
 ])
