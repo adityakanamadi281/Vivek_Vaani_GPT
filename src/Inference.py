@@ -7,7 +7,8 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings 
 from langchain_community.vectorstores import Chroma
 from langchain_core.prompts import ChatPromptTemplate 
-from langchain_core.output_parsers import StrOutputParser 
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough 
 
 load_dotenv()  # Load environment variables from .env file
 api_key = os.getenv("GEMINI_API_KEY")
@@ -32,7 +33,7 @@ embeddings = FastEmbedEmbeddings(model_name="thenlper/gte-large")
 
 
 vectordb = Chroma.from_documents(
-    documents=docs,
+    documents=chunks,
     embedding=embeddings,
     persist_directory="chroma_db"   # folder to store DB
 )
@@ -52,8 +53,16 @@ RAG_TEMPLATE = ChatPromptTemplate.from_messages([
 ])
 
 
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+def retrieve_context(input_dict):
+    query = input_dict["query"]
+    docs = retriever.invoke(query)
+    return format_docs(docs)
+
 rag_chain = (
-    {"context": retriever, "query": lambda x: x["query"]} 
+    {"context": retrieve_context, "query": lambda x: x["query"]}
     | RAG_TEMPLATE 
     | llm 
     | StrOutputParser()
